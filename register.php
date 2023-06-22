@@ -78,6 +78,7 @@
       <p class="login-box-msg">Register New Account</p>
 
       <form action="" method="post">
+      <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'];?>">
       <div class="input-group mb-3">
           <input type="text" name="name" class="form-control" placeholder="Name">
           <div class="input-group-append">

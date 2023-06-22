@@ -1,7 +1,8 @@
 <?php
+    session_start();
     require 'config/config.php';
     require 'config/common.php';
-    session_start();
+    
     if(empty($_SESSION['user_id']) && empty($_SESSION['user_name'])){
       header('location:login.php');
     }
@@ -42,6 +43,9 @@
 
     //Insert Comment
     if($_POST){
+      if(empty($_POST['comment'])){
+        $commentError="! Need to fill Comment";
+      }else{
       $comment=$_POST['comment'];
       $stmt=$pdo->prepare("INSERT INTO comments (user_id,post_id,content)VALUES (:user_id,:post_id,:content)");
       $result=$stmt->execute(
@@ -54,8 +58,8 @@
         if($result){
           echo "<script>alert('Comment successful');window.location.href='blogdetail.php?id=$postId'</script>";
         }
-      
     }
+  }
     //Insert Comment
 
 
@@ -125,9 +129,9 @@
                   <div class="comment-text" style="margin-left:0px !important">
                     <span class="username">
                       <?php echo escape($result_user[$key][0]['name']);?>
-                      <span class="text-muted float-right"><?php echo $value['created_at'];?></span>
+                      <span class="text-muted float-right"><?php echo escape($value['created_at']);?></span>
                     </span><!-- /.username -->
-                    <?php echo $value['content'];?>
+                    <?php echo escape($value['content']);?>
                   </div>
                   <?php
                   }
@@ -139,9 +143,11 @@
               <!-- /.card-footer -->
               <div class="card-footer">
                 <form action="" method="post">
+                <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'];?>">
                   <!-- .img-push is used to add margin to elements next to floating images -->
                   <div class="img-push">
                     <input type="text" name="comment" class="form-control form-control-sm" placeholder="Press enter to post comment">
+                    <p style="color:red"><?php echo !empty($commentError)?$commentError:''; ?></p>
                   </div>
                 </form>
               </div>

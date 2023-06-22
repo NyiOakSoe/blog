@@ -1,9 +1,9 @@
 <?php
   
-  
+  session_start();
   require 'config/config.php';
   require 'config/common.php';
-  session_start();
+  
   if(empty($_SESSION['user_name']) && empty($_SESSION['user_id'])){
     header('location:login.php');
   }
@@ -84,7 +84,7 @@
               <div class="card-body" style="height:200px; !important" >
                 
               <center><a href="blogdetail.php?id=<?php echo escape($value['id'])?>"><img src="admin/images/<?php echo $value['image']?>" alt="photo" style="height:150px; "></center></a>
-                <!-- <p><?php echo $value['content']?></p>                -->
+                <!-- <p><?php echo escape($value['content'])?></p>                -->
               </div>  
             </div>
             <!-- /.card -->

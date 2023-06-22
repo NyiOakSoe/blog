@@ -1,6 +1,9 @@
 <?php
+  session_start();
     require 'config/config.php';
-    session_start();
+    require 'config/common.php';
+
+    
     if(isset($_POST['SignBTN'])){
       if(empty($_POST['email']) || empty($_POST['password'])){
         if(empty($_POST['email'])){
@@ -35,10 +38,10 @@
               }
               
             
-        }else{
-        echo "<script>alert('Incorrect gmail or password')</script>";
-        }
-  }
+            }else{
+              echo "<script>alert('Incorrect gmail or password')</script>";
+            }
+          }
       }
       
         
@@ -71,6 +74,7 @@
       <p class="login-box-msg">Sign in to start your session</p>
 
       <form action="" method="post">
+      <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'];?>">
         <div class="input-group mb-3">
           <input type="email" name="email" class="form-control" placeholder="Email">
           <div class="input-group-append">
